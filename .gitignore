@@ -36,3 +36,6 @@ prisma/migrations/*.sql
 
 # Debug
 *.tsbuildinfo
+
+# Local Users
+Users/
