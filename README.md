@@ -23,7 +23,7 @@ Plataforma educativa completa para cursos técnicos, compuesta por:
 star-seven/
 ├── apps/
 │   ├── web/          # Sitio web institucional (Next.js)
-│   ├── campus/       # Plataforma de cursos (Next.js)
+│   ├── app/          # Plataforma de cursos (Next.js)
 │   ├── admin/        # Panel administrativo (Next.js)
 │   └── api/          # Backend API (NestJS)
 ├── packages/
