@@ -42,3 +42,21 @@ npm install
 # Ejecutar todos los servicios en desarrollo
 npm run dev
 ```
+
+## 🚀 Despliegue en Railway
+
+### Configuración del Almacenamiento (Railway Volumes)
+
+La plataforma utiliza almacenamiento local para los archivos multimedia. En producción, esto se gestiona mediante **Railway Volumes** para asegurar la persistencia de los datos entre despliegues.
+
+#### Pasos de Configuración en Railway:
+
+1.  Ve al servicio de la API (`apps/api`) en tu panel de Railway.
+2.  Dirígete a la pestaña **Variables**.
+3.  Añade las siguientes variables de entorno:
+    - `UPLOAD_PATH`: `/app/uploads` (Esta es la ruta absoluta dentro del contenedor donde se guardarán los archivos).
+    - `APP_URL`: `https://tu-dominio-api.up.railway.app` (La URL pública de tu API, necesaria para generar los enlaces a las imágenes).
+4.  Dirígete a la pestaña **Volumes**.
+5.  Haz clic en **New Volume**.
+6.  En el campo **Mount Path**, escribe exactamente lo mismo que pusiste en `UPLOAD_PATH`: `/app/uploads`.
+7.  Guarda los cambios y realiza un nuevo despliegue (Deploy) para que los cambios surtan efecto.
