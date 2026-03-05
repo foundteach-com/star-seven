@@ -6,17 +6,26 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../src/generated/client"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String?
+  password  String
+  role      Role     @default(STUDENT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  INSTRUCTOR
+  STUDENT
 }

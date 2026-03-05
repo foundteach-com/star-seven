@@ -8,14 +8,14 @@ Plataforma educativa completa para cursos técnicos, compuesta por:
 
 ## Stack Tecnológico
 
-| Capa                | Tecnología       |
-| ------------------- | ---------------- |
-| Frontend            | Next.js          |
-| Backend             | NestJS           |
-| Base de Datos       | PostgreSQL       |
-| Archivos Multimedia | Supabase Storage |
-| Despliegue          | Railway          |
-| Monorepo            | Turborepo        |
+| Capa                | Tecnología      |
+| ------------------- | --------------- |
+| Frontend            | Next.js         |
+| Backend             | NestJS          |
+| Base de Datos       | PostgreSQL      |
+| Archivos Multimedia | Railway Volumes |
+| Despliegue          | Railway         |
+| Monorepo            | Turborepo       |
 
 ## Estructura del Proyecto
 
