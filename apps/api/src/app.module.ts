@@ -7,13 +7,16 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { UploadsModule } from './uploads/uploads.module';
 
+import { PrismaModule } from './prisma.module';
+
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     ServeStaticModule.forRoot({
       rootPath: join(process.cwd(), 'uploads'),
       serveRoot: '/uploads',
     }),
+    PrismaModule,
     AuthModule,
     UploadsModule,
   ],
