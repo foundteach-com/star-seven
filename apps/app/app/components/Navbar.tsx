@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/app/store/useAuthStore";
-import { LogOut, BookOpen, LayoutDashboard, User } from "lucide-react";
+import { LogOut, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -27,17 +27,26 @@ export default function Navbar() {
           </div>
           <div className="flex items-center">
             {user ? (
-              <div className="flex items-center ml-3 space-x-4">
-                <span className="text-sm text-gray-700 hidden sm:block">
-                  Hola, <span className="font-medium">{user.name || user.email}</span>
-                </span>
-                <button
-                  onClick={handleLogout}
-                  className="flex items-center text-gray-500 hover:text-red-600 transition-colors"
+              <div className="flex items-center ml-3 space-x-6">
+                <Link 
+                  href="/dashboard"
+                  className="flex items-center text-gray-500 hover:text-primary-600 transition-colors"
                 >
-                  <LogOut className="w-5 h-5 mr-1" />
-                  <span className="text-sm font-medium hidden sm:block">Salir</span>
-                </button>
+                  <LayoutDashboard className="w-5 h-5 mr-1" />
+                  <span className="text-sm font-bold hidden sm:block">Dashboard</span>
+                </Link>
+                <div className="flex items-center space-x-4">
+                    <span className="text-sm text-gray-700 hidden sm:block font-bold">
+                        {user.name || user.email.split('@')[0]}
+                    </span>
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center text-gray-500 hover:text-red-500 transition-colors group"
+                    >
+                        <LogOut className="w-5 h-5 mr-1 group-hover:scale-110 transition-transform" />
+                        <span className="text-sm font-bold hidden sm:block">Salir</span>
+                    </button>
+                </div>
               </div>
             ) : (
               <Link

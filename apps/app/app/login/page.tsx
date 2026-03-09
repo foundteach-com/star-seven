@@ -35,8 +35,13 @@ export default function LoginPage() {
       setAuth({ id: "1", email, name: email.split('@')[0], role: "STUDENT" }, access_token);
       
       router.push("/");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Credenciales inválidas");
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosError = err as { response: { data: { message: string } } };
+        setError(axiosError.response?.data?.message || "Credenciales inválidas");
+      } else {
+        setError("Ocurrió un error inesperado");
+      }
     } finally {
       setLoading(false);
     }

@@ -27,8 +27,13 @@ export default function SignupPage() {
       setSuccess(true);
       // Después de 2 segundos redirigir al login
       setTimeout(() => router.push("/login"), 2000);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Ocurrió un error al registrar el usuario");
+    } catch (err: unknown) {
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosError = err as { response: { data: { message: string } } };
+        setError(axiosError.response?.data?.message || "Ocurrió un error al registrar el usuario");
+      } else {
+        setError("Ocurrió un error inesperado");
+      }
     } finally {
       setLoading(false);
     }
