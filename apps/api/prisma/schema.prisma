@@ -14,13 +14,128 @@ datasource db {
 }
 
 model User {
+  id            String       @id @default(uuid())
+  email         String       @unique
+  name          String?
+  password      String
+  role          Role         @default(STUDENT)
+  courses       Course[]     @relation("InstructorCourses")
+  enrollments   Enrollment[]
+  reviews       Review[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([email])
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  courses     Course[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([slug])
+}
+
+model Course {
+  id           String       @id @default(uuid())
+  title        String
+  slug         String       @unique
+  description  String?
+  thumbnailUrl String?
+  price        Float        @default(0)
+  published    Boolean      @default(false)
+  
+  category     Category     @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  
+  instructor   User         @relation("InstructorCourses", fields: [instructorId], references: [id])
+  instructorId String
+  
+  modules      Module[]
+  enrollments  Enrollment[]
+  reviews      Review[]
+  
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([instructorId])
+}
+
+model Module {
   id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      Role     @default(STUDENT)
+  title     String
+  order     Int      @default(0)
+  
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
+  
+  lessons   Lesson[]
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model Lesson {
+  id          String   @id @default(uuid())
+  title       String
+  content     String?
+  videoUrl    String?
+  order       Int      @default(0)
+  duration    Int      @default(0) // in minutes
+  
+  module      Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  moduleId    String
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([moduleId])
+}
+
+model Enrollment {
+  id        String   @id @default(uuid())
+  
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  
+  progress  Float    @default(0) // percentage
+  completed Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int      @default(5)
+  comment   String?
+  
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  
+  course    Course   @relation(fields: [courseId], references: [id])
+  courseId  String
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([courseId])
 }
 
 enum Role {
@@ -28,3 +143,4 @@ enum Role {
   INSTRUCTOR
   STUDENT
 }
+
